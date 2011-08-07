@@ -5,33 +5,33 @@
   "homepage": "http://sproutcore.com",
   "author": "Strobe Inc., Apple, Inc., and contributors",
   "version": "2.0.beta.2",
-
+  "bpm": "1.0.0",
   "directories": {
     "lib": "lib"
   },
-
   "dependencies": {
-    "spade":               "~> 1.0",
-    "sproutcore-runtime":  "2.0.beta.2",
-    "sproutcore-datetime": "2.0.beta.2",
-    "sproutcore-indexset": "2.0.beta.2"
+    "spade": "~> 1.0",
+    "sproutcore-runtime": ">= 0",
+    "sproutcore-datetime": "2.0.beta.2.pre",
+    "sproutcore-indexset": "2.0.beta.2.pre"
   },
-
   "dependencies:development": {
     "spade-qunit": "~> 1.0.0"
   },
-
   "bpm:build": {
-
     "bpm_libs.js": {
-      "directories": ["lib"],
-      "modes":        "*"
+      "directories": [
+        "lib"
+      ],
+      "modes": "*"
     },
-
     "sproutcore-datastore/bpm_tests.js": {
-      "directories": ["tests"],
-      "modes": ["debug"]
+      "directories": [
+        "tests"
+      ],
+      "modes": [
+        "debug"
+      ]
     }
   }
 }
-
