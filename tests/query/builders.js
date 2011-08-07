@@ -63,6 +63,7 @@ function performBasicTests(methodName, loc) {
 
   module("SC.Query.%@()".fmt(methodName), {
     setup: function() {
+      MyApp = {};
       MyApp.TestRecord = TestRecord;
       MyApp.TestRecord2 = TestRecord2;
     },
