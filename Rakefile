@@ -50,7 +50,7 @@ file "dist/sproutcore-datastore.js" => :build do
   mkdir_p "dist"
 
   File.open("dist/sproutcore-datastore.js", "w") do |file|
-    # TODO: make it generate to tmp/statis/sproutcore-datastore.js
+    # TODO: make it generate to tmp/static/sproutcore-datastore.js
     file.puts strip_require("tmp/static/tmp/sproutcore-datastore.js")
   end
 end
