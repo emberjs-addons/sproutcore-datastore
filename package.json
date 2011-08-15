@@ -16,7 +16,9 @@
     "sproutcore-indexset": "2.0.beta.3"
   },
   "dependencies:development": {
-    "spade-qunit": "~> 1.0.0"
+    "spade-qunit": "~> 1.0.0",
+    "sproutcore-views": "2.0.beta.3",
+    "sproutcore-handlebars": "2.0.beta.3"
   },
   "bpm:build": {
     "bpm_libs.js": {

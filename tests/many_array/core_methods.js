@@ -194,6 +194,25 @@ test("swapping storeIds array should change ManyArray and observers", function()
   storeIds2.unshiftObject(storeId);
   equals(obj.cnt, 1, 'observer should have fired after edit');
   equals(get(recs, 'length'), 2, 'should reflect new length');
-  equals(recs.objectAt(0), rec, 'recs.objectAt(0) should return pushed rec');  
+  equals(recs.objectAt(0), rec, 'recs.objectAt(0) should return pushed rec');
 
+});
+
+test("waits for id if it's not yet attached to object", function() {
+  var length = recs.get("length");
+  var attrs  = { firstName: "Bob", lastName: "Cage", age: 20 };
+  var record = MyApp.store.createRecord(MyApp.Foo, attrs);
+
+  recs.addInverseRecord(record);
+
+  equals(4, recs.get("length"));
+
+  var storeKey = record.get("storeKey");
+  SC.run(function() {
+    SC.Store.replaceIdFor(storeKey, 100);
+    MyApp.store.recordDidChange(MyApp.Foo, 100, storeKey, 'id');
+  });
+
+  equals(5, recs.get("length"));
+  equals("Bob", recs.objectAt(4).get("firstName"));
 });
