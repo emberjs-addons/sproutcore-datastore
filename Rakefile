@@ -30,19 +30,24 @@ def uglify(file)
   "#{LICENSE}\n#{uglified}"
 end
 
-# Set up the intermediate and output directories for the interim build process
-
-SproutCore::Compiler.intermediate = "tmp/sproutcore-datastore"
 SproutCore::Compiler.output       = "tmp/static"
 
-# Create a compile task for a SproutCore package. This task will compute
-# dependencies and output a single JS file for a package.
-def compile_task
+def compile_datastore_task
+  SproutCore::Compiler.intermediate = "tmp/sproutcore-datastore"
   js_tasks = SproutCore::Compiler::Preprocessors::JavaScriptTask.with_input "lib/**/*.js", '.'
   SproutCore::Compiler::CombineTask.with_tasks js_tasks, "#{SproutCore::Compiler.intermediate}"
 end
 
-task :build => compile_task
+def compile_indexset_task
+  SproutCore::Compiler.intermediate = "tmp/intermidiate"
+  js_tasks = SproutCore::Compiler::Preprocessors::JavaScriptTask.with_input "packages/sproutcore-indexset/lib/**/*.js", '.'
+  SproutCore::Compiler::CombineTask.with_tasks js_tasks, "#{SproutCore::Compiler.intermediate}/sproutcore-indexset"
+end
+
+task :compile_indexset_task  => compile_indexset_task
+task :compile_datastore_task => compile_datastore_task
+
+task :build => [:compile_indexset_task, :compile_datastore_task]
 
 file "dist/sproutcore-datastore.js" => :build do
   puts "Generating sproutcore-datastore.js"
@@ -51,6 +56,7 @@ file "dist/sproutcore-datastore.js" => :build do
 
   File.open("dist/sproutcore-datastore.js", "w") do |file|
     # TODO: make it generate to tmp/static/sproutcore-datastore.js
+    file.puts strip_require("tmp/static/sproutcore-indexset.js")
     file.puts strip_require("tmp/static/tmp/sproutcore-datastore.js")
   end
 end
