@@ -34,6 +34,12 @@
       "modes": [
         "debug"
       ]
+    },
+    "sproutcore-datastore.js": {
+      "minifier": "uglify-js",
+      "include": [
+        "sproutcore-indexset"
+      ]
     }
   }
 }
