@@ -1,0 +1,14 @@
+{
+  "name": "sproutcore-datastore-project",
+  "bpm": "1.0.0",
+  "dependencies": {
+    "sproutcore-datastore": "=> 2.0",
+    "sproutcore-indexset":  "=> 2.0"
+  },
+  
+  "bpm:build": {
+    "bpm_libs.js": {
+      "minifier": "uglify-js"
+    }
+  }
+}
