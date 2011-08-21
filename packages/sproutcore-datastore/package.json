@@ -4,7 +4,7 @@
   "description": "The SproutCore data store",
   "homepage": "http://sproutcore.com",
   "author": "Strobe Inc., Apple, Inc., and contributors",
-  "version": "2.0.beta.2",
+  "version": "2.0.beta.3",
   "bpm": "1.0.0",
   "directories": {
     "lib": "lib"
@@ -33,12 +33,6 @@
       ],
       "modes": [
         "debug"
-      ]
-    },
-    "sproutcore-datastore.js": {
-      "minifier": "uglify-js",
-      "include": [
-        "sproutcore-indexset"
       ]
     }
   }
