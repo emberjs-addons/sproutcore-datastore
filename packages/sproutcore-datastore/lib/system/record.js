@@ -858,7 +858,7 @@ SC.Record = SC.Object.extend(
     if (value instanceof SC.Record) {
       childRecord = value;
     } else {
-      recordType = this._materializeNestedRecordType(value, key);
+      recordType = this._materializeNestedRecordType(value, path);
       childRecord = this.createNestedRecord(recordType, value);
     }
 
