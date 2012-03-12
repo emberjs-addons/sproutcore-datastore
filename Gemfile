@@ -1,3 +1,5 @@
+source "http://rubygems.org"
+
 gem "sproutcore", :git => "https://github.com/wycats/abbot-from-scratch.git"
 gem "uglifier", "1.0.0"
 gem "execjs", "1.2.0"
