@@ -1,7 +1,9 @@
-require 'bundler/setup'
+require "bundler/setup"
 require "erb"
 require "uglifier"
 require "sproutcore"
+
+LICENSE = File.read("generators/license.js")
 
 module SproutCore
   module Compiler
@@ -21,7 +23,7 @@ end
 
 def strip_sc_assert(file)
   result = File.read(file)
-  result.gsub!(%r{^(\s)+sc_assert\((.*)\).*$}, "")
+  result.gsub!(/^(\s)+sc_assert\((.*)\).*$/m, "")
   result
 end
 
@@ -61,4 +63,26 @@ file "dist/sproutcore-datastore.js" => :build do
   end
 end
 
-task :default => :"dist/sproutcore-datastore.js"
+# Minify dist/sproutcore-datastore.js to dist/sproutcore-datastore.min.js
+file "dist/sproutcore-datastore.min.js" => "dist/sproutcore-datastore.js" do
+  puts "Generating sproutcore-datastore.min.js"
+  
+  File.open("dist/sproutcore-datastore.prod.js", "w") do |file|
+    file.puts strip_sc_assert("dist/sproutcore-datastore.js")
+  end
+  
+  File.open("dist/sproutcore-datastore.min.js", "w") do |file|
+    file.puts uglify("dist/sproutcore-datastore.prod.js")
+  end
+  rm "dist/sproutcore-datastore.prod.js"
+end
+
+desc "Build SproutCore Data Store"
+task :dist => ["dist/sproutcore-datastore.min.js"]
+
+desc "Clean artifacts from previous builds"
+task :clean do
+  sh "rm -rf tmp && rm -rf dist"
+end
+
+task :default => :dist
