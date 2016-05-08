@@ -328,15 +328,29 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
   */
   readEditableDataHash: function(storeKey) {
     // read the value - if there is no hash just return; nothing to do
-    var ret = this.dataHashes[storeKey];
+    var pk, pr, path, ret = this.dataHashes[storeKey];
     if (!ret) return ret ; // nothing to do.
 
     // clone data hash if not editable
     var editables = this.editables;
     if (!editables) editables = this.editables = [];
     if (!editables[storeKey]) {
+      pk = this.childRecords[storeKey];
+      if (pk) {
+        // Since the is a nested record we have to actually walk up the
+        // parent chain to get to the root parent and clone that hash.  And
+        // then reconstruct the memory space linking.
+        this.readEditableDataHash(pk);
+        pr = this.parentRecords[pk];
+        if (pr) {
+          path = pr[storeKey];
+          ret = this.dataHashes[storeKey] = path ? SC.getPath(this.dataHashes[pk], path) : null;
+        }
+      }
+      else {
+        ret = this.dataHashes[storeKey] = SC.copy(ret, YES);
+      }
       editables[storeKey] = 1 ; // use number to store as dense array
-      ret = this.dataHashes[storeKey] = SC.copy(ret, YES);
     }
     return ret;
   },
