@@ -278,7 +278,7 @@ SC.Record = SC.Object.extend(
   refresh: function(recordOnly, callback) {
     var store = get(this, 'store'), rec, ro,
         sk = get(this, 'storeKey'),
-        prKey = store.parentStoreKeyExists();
+        prKey = store.parentStoreKeyExists(sk);
 
     if (!callback && 'function'===typeof recordOnly) {
       callback = recordOnly;
@@ -287,7 +287,7 @@ SC.Record = SC.Object.extend(
     
     // If we only want to refresh this record or it doesn't have a parent 
     // record we will commit this record
-    if (recordOnly || (none(recordOnly) && none(prKey))) {
+    if (recordOnly || none(prKey)) {
       store.refreshRecord(null, null, sk, callback);
     } else if (prKey) {
       rec = store.materializeRecord(prKey);
@@ -312,11 +312,11 @@ SC.Record = SC.Object.extend(
   destroy: function(recordOnly) {
     var store = get(this, 'store'), rec, ro,
         sk = get(this, 'storeKey'),
-        prKey = store.parentStoreKeyExists();
+        prKey = store.parentStoreKeyExists(sk);
 
     // If we only want to destroy this record or it doesn't have a parent 
     // record we will commit this record
-    ro = recordOnly || (none(recordOnly) && none(prKey));
+    ro = recordOnly || none(prKey);
     if (ro){
       SC.propertyWillChange(this, 'status');
       store.destroyRecord(null, null, sk);
@@ -722,11 +722,11 @@ SC.Record = SC.Object.extend(
   commitRecord: function(params, recordOnly, callback) {
     var store = get(this, 'store'), rec, ro,
         sk = get(this, 'storeKey'),
-        prKey = store.parentStoreKeyExists();
+        prKey = store.parentStoreKeyExists(sk);
 
     // If we only want to commit this record or it doesn't have a parent record
     // we will commit this record
-    ro = recordOnly || (SC.none(recordOnly) && SC.none(prKey));
+    ro = recordOnly || none(prKey);
     if (ro){
       store.commitRecord(undefined, undefined, get(this, 'storeKey'), params, callback);
     } else if (prKey){
