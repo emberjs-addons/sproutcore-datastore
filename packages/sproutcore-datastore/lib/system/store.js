@@ -1377,7 +1377,7 @@ SC.Store = SC.Object.extend( /** @scope SC.Store.prototype */ {
     prs = this.parentRecords || {};
     // first rid of the old parent
     oldPk = crs[childStoreKey];
-    if (oldPk){
+    if (oldPk && prs[oldPk]){
       oldChildren = prs[oldPk];
       delete oldChildren[childStoreKey];
       // this.recordDidChange(null, null, oldPk, key);
